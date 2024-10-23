@@ -3,6 +3,9 @@ stages:
   - push
   - deploy
 
+services:
+  - docker:dind 
+
 variables:
   PROJECT_NAME: project-argian
   REPO_NAME: webapp-1
