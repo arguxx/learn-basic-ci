@@ -10,6 +10,8 @@ variables:
   DOCKER_VERSION: "stable"
   DOCKER_DIND_VERSION: "18.09-dind"
 
+image: docker:latest
+
 services:
   - name: ${CI_REGISTRY_URL}:8086/docker:${DOCKER_DIND_VERSION}
     entrypoint: ["dockerd-entrypoint.sh"]
