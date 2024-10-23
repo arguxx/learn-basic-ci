@@ -3,25 +3,29 @@ stages:
   - push
   - deploy
 
-services:
-  - docker:dind 
-
 variables:
   PROJECT_NAME: project-argian
   REPO_NAME: webapp-1
+  DOCKER_HOST: unix:///var/run/docker.sock
+  DOCKER_VERSION: "stable"
+  DOCKER_DIND_VERSION: "18.09-dind"
+
+services:
+  - name: ${CI_REGISTRY_URL}:8086/docker:${DOCKER_DIND_VERSION}
+    entrypoint: ["dockerd-entrypoint.sh"]
 
 docker-build:
   stage: build
   script:
-    - docker build -t $CI_REGISTRY_URL/$PROJECT_NAME/$REPO_NAME:$CI_COMMIT_SHORT_SHA .
+    - docker build -t ${CI_REGISTRY_URL}:8087/${PROJECT_NAME}/${REPO_NAME}:$CI_COMMIT_SHORT_SHA .
   only:
     - main
 
 docker-push:
   stage: push
   script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY_URL
-    - docker push $CI_REGISTRY_URL/$PROJECT_NAME/$REPO_NAME:$CI_COMMIT_SHORT_SHA
+    - echo ${CI_REGISTRY_PASSWORD} | docker login -u ${CI_REGISTRY_USER} --password-stdin ${CI_REGISTRY_URL}:8087
+    - docker push ${CI_REGISTRY_URL}:8087/${PROJECT_NAME}/${REPO_NAME}:$CI_COMMIT_SHORT_SHA
   only:
     - main
 
