@@ -1,0 +1,24 @@
+stages:
+  - build
+  - push
+  - deploy
+
+variables:
+  PROJECT_NAME: project-argian
+  REPO_NAME: webapp-1
+
+docker-build:
+  stage: build
+  script:
+    - docker build -t $CI_REGISTRY_URL/$PROJECT_NAME/$REPO_NAME:$CI_COMMIT_SHORT_SHA .
+  only:
+    - main
+
+docker-push:
+  stage: push
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY_URL
+    - docker push $CI_REGISTRY_URL/$PROJECT_NAME/$REPO_NAME:$CI_COMMIT_SHORT_SHA
+  only:
+    - main
+
