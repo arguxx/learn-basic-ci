@@ -12,9 +12,9 @@ variables:
 
 image: docker:latest
 
-services:
-  - name: ${CI_REGISTRY_URL}:8086/docker:${DOCKER_DIND_VERSION}
-    entrypoint: ["dockerd-entrypoint.sh"]
+# services:
+#   - name: ${CI_REGISTRY_URL}:8086/docker:${DOCKER_DIND_VERSION}
+#     entrypoint: ["dockerd-entrypoint.sh"]
 
 docker-build:
   stage: build
