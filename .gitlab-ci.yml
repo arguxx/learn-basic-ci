@@ -6,15 +6,8 @@ stages:
 variables:
   PROJECT_NAME: project-argian
   REPO_NAME: webapp-1
-  DOCKER_HOST: unix:///var/run/docker.sock
-  DOCKER_VERSION: "stable"
-  DOCKER_DIND_VERSION: "18.09-dind"
 
 image: docker:latest
-
-# services:
-#   - name: ${CI_REGISTRY_URL}:8086/docker:${DOCKER_DIND_VERSION}
-#     entrypoint: ["dockerd-entrypoint.sh"]
 
 docker-build:
   stage: build
